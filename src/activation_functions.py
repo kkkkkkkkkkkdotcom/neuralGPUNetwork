@@ -64,4 +64,7 @@ class Softmax(ActivationFunction):
     @staticmethod
     def derivative(x):
         # Para softmax con cross-entropy, se simplifica en backprop
-        return torch.ones_like(x)
+        #return torch.ones_like(x)
+        # Softmax derivative se maneja en backward con cross-entropy
+        # Esta función no se usa directamente
+        pass

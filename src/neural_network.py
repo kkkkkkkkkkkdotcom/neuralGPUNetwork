@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from activation_functions import Sigmoid, ReLU, Tanh, Softmax
+from .activation_functions import Sigmoid, ReLU, Tanh, Softmax
 
 
 class NeuralNetwork:
