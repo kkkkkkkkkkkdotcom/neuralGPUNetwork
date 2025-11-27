@@ -146,10 +146,10 @@ def ejecutar_experimentos():
     
     # Guardar resultados
     Path('results').mkdir(exist_ok=True)
-    with open('results/experimentos.json', 'w') as f:
+    with open('results/experiments.json', 'w') as f:
         json.dump(resultados, f, indent=2)
     
-    print("\n💾 Resultados guardados en: results/experimentos.json")
+    print("\n💾 Resultados guardados en: results/experiments.json")
 
 if __name__ == '__main__':
     ejecutar_experimentos()
