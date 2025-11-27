@@ -1,7 +1,36 @@
+# src/train.py
 import torch
 from .neural_network import NeuralNetwork
 from .data_loader import FaceDataLoader
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+def plot_training_history(history):
+    """Visualizar progreso del entrenamiento"""
+    # Crear carpeta si no existe
+    Path('results/plots').mkdir(parents=True, exist_ok=True)
+    
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+    
+    # Loss
+    ax1.plot(history['train_loss'])
+    ax1.set_title('Training Loss')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.grid(True)
+    
+    # Accuracy
+    ax2.plot(history['train_acc'], label='Train')
+    ax2.plot(history['test_acc'], label='Test')
+    ax2.set_title('Accuracy')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.legend()
+    ax2.grid(True)
+    
+    plt.tight_layout()
+    plt.savefig('results/plots/training_history.png', dpi=150)
+    print("\n📊 Gráficas guardadas en results/plots/")
 
 
 def train_network():
@@ -62,7 +91,6 @@ def train_network():
         if (epoch + 1) % 10 == 0:
             print(f"Epoch {epoch+1}/{epochs} - Loss: {avg_loss:.4f} - "
                   f"Train Acc: {train_acc:.4f} - Test Acc: {test_acc:.4f}")
-        plot_training_history(history)
     
     print("\n✅ Entrenamiento completado!")
     print(f"Precisión final en test: {history['test_acc'][-1]:.4f}")
@@ -74,32 +102,11 @@ def train_network():
         'layer_sizes': nn.layer_sizes
     }, 'results/model.pth')
     
+    # Graficar resultados
+    plot_training_history(history)
+    
     return nn, history
 
 
 if __name__ == '__main__':
     model, history = train_network()
-
-def plot_training_history(history):
-    """Visualizar progreso del entrenamiento"""
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-    
-    # Loss
-    ax1.plot(history['train_loss'])
-    ax1.set_title('Training Loss')
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Loss')
-    ax1.grid(True)
-    
-    # Accuracy
-    ax2.plot(history['train_acc'], label='Train')
-    ax2.plot(history['test_acc'], label='Test')
-    ax2.set_title('Accuracy')
-    ax2.set_xlabel('Epoch')
-    ax2.set_ylabel('Accuracy')
-    ax2.legend()
-    ax2.grid(True)
-    
-    plt.tight_layout()
-    plt.savefig('results/plots/training_history.png', dpi=150)
-    print("\n📊 Gráficas guardadas en results/plots/")
